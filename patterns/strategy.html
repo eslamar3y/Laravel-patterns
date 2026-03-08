@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Strategy — Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-pattern-id="strategy">
+<nav>
+  <a class="nav-logo" href="../index.html"><span>{</span> Laravel Patterns <span>}</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="../index.html#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="../index.html#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="detail-hero">
+  <div class="hero-grid-bg" style="opacity:0.2"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html"><span class="l-en">Home</span><span class="l-ar" style="display:none">الرئيسية</span></a>
+      <span>/</span>
+      <a href="../index.html#patterns" data-i18n="nav.patterns-bc">Patterns</a>
+      <span>/</span>
+      <span class="l-en">Strategy</span><span class="l-ar" style="display:none">Strategy</span>
+    </div>
+    <div class="detail-cat" data-catKey="Behavioral" style="background:rgba(126,93,232,0.1);color:var(--behavioral)">
+      <span class="l-en">Behavioral Pattern</span><span class="l-ar" style="display:none">باترن سلوكي</span>
+    </div>
+    <h1 class="detail-title">
+      <span class="l-en">Strategy</span><span class="l-ar" style="display:none">Strategy</span>
+    </h1>
+    <p class="detail-tagline">
+      <span class="l-en">Define a family of algorithms and make them interchangeable at runtime.</span><span class="l-ar" style="display:none">تعريف مجموعة خوارزميات وجعلها قابلة للتبادل وقت التشغيل.</span>
+    </p>
+  </div>
+</header>
+
+<div class="detail-layout">
+  <aside class="detail-sidebar">
+    <nav class="toc">
+      <div class="toc-title"><span class="l-en">On This Page</span><span class="l-ar" style="display:none">المحتويات</span></div>
+      <ul class="toc-links">
+        <li><a href="#overview"><span class="l-en">Overview</span><span class="l-ar" style="display:none">نظرة عامة</span></a></li>
+        <li><a href="#problem"><span class="l-en">Real Problem</span><span class="l-ar" style="display:none">مشكلة حقيقية</span></a></li>
+        <li><a href="#laravel"><span class="l-en">In Laravel</span><span class="l-ar" style="display:none">في Laravel</span></a></li>
+        <li><a href="#code"><span class="l-en">Code Example</span><span class="l-ar" style="display:none">مثال كود</span></a></li>
+        <li><a href="#when-use"><span class="l-en">When to Use</span><span class="l-ar" style="display:none">متى تستخدمه</span></a></li>
+        <li><a href="#when-not"><span class="l-en">When NOT to Use</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="detail-content">
+<section id="overview">
+      <h2 class="section-anchor"><span class="l-en">Pattern Overview</span><span class="l-ar" style="display:none">نظرة عامة على الباترن</span></h2>
+      <p class="content-text"><span class="l-en">The <strong>Strategy</strong> pattern defines a family of algorithms, puts each in its own class, and makes them interchangeable. The context uses a strategy without knowing its details.</span><span class="l-ar" style="display:none">باترن <strong>Strategy</strong> بيعرّف مجموعة خوارزميات، بيحط كل واحدة في كلاسها، وبيخليهم قابلين للتبادل. الـ context بيستخدم strategy من غير ما يعرف تفاصيلها.</span></p>
+      <div class="callout callout-info"><span class="l-en"><strong>Key Idea:</strong> The context says "calculate shipping" — the strategy decides whether to use FedEx rates, UPS rates, or DHL rates.</span><span class="l-ar" style="display:none"><strong>الفكرة الأساسية:</strong> الـ context بيقول "احسب الشحن" — الـ strategy هي اللي تقرر هتستخدم أسعار FedEx أو UPS أو DHL.</span></div>
+    </section>
+
+    <section id="problem">
+      <h2 class="section-anchor"><span class="l-en">Real Problem Example</span><span class="l-ar" style="display:none">مثال على مشكلة حقيقية</span></h2>
+      <p class="content-text"><span class="l-en">Your e-commerce app supports FedEx, UPS, and DHL — each with different rate calculation logic. A massive if/else in your OrderService would be hard to maintain. Strategy encapsulates each in its own class.</span><span class="l-ar" style="display:none">تطبيق التجارة الإلكترونية بيدعم FedEx وUPS وDHL — كل واحد بحسابات أسعار مختلفة. if/else ضخم في OrderService صعب تحافظ عليه. Strategy بتغلف كل واحد في كلاسه.</span></p>
+    </section>
+
+    <section id="laravel">
+      <h2 class="section-anchor"><span class="l-en">Laravel Implementation</span><span class="l-ar" style="display:none">التطبيق في Laravel</span></h2>
+      <p class="content-text"><span class="l-en">Laravel's driver-based systems are Strategy in action: Cache drivers (redis, file, database), Mail drivers (smtp, ses, mailgun), Queue drivers (redis, sqs) all implement a shared interface.</span><span class="l-ar" style="display:none">أنظمة الـ drivers في Laravel هي Strategy في العمل: Cache drivers (redis, file, database)، Mail drivers (smtp, ses, mailgun)، Queue drivers (redis, sqs) كلهم بينفذوا shared interface.</span></p>
+      <p class="content-text"><span class="l-en">You swap strategies via <code>.env</code> config without changing application code.</span><span class="l-ar" style="display:none">بتبدل الـ strategies عبر config الـ <code>.env</code> من غير تغيير كود التطبيق.</span></p>
+    </section>
+
+    <section id="code">
+      <h2 class="section-anchor"><span class="l-en">Laravel Code Example</span><span class="l-ar" style="display:none">مثال كود Laravel</span></h2>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Contracts/ShippingStrategyInterface.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Contracts;
+interface ShippingStrategyInterface
+{
+    public function calculateCost(float $weight, string $destination): float;
+    public function getEstimatedDays(string $destination): int;
+    public function getCarrierName(): string;
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Shipping/FedExStrategy.php + UPSStrategy.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+class FedExStrategy implements ShippingStrategyInterface
+{
+    public function calculateCost(float $weight, string $destination): float
+    {
+        $baseRate = 12.50;
+        return $baseRate + ($weight * 0.85) + $this-&gt;getZoneSurcharge($destination);
+    }
+    public function getEstimatedDays(string $destination): int
+    {
+        return str_starts_with($destination, 'US') ? 2 : 7;
+    }
+    public function getCarrierName(): string { return 'FedEx'; }
+    private function getZoneSurcharge(string $d): float
+    {
+        return in_array($d, ['AK', 'HI']) ? 15.00 : 0.00;
+    }
+}
+
+class UPSStrategy implements ShippingStrategyInterface
+{
+    public function calculateCost(float $weight, string $destination): float
+    {
+        return 10.00 + ($weight * 1.10); // UPS different rates / أسعار UPS مختلفة
+    }
+    public function getEstimatedDays(string $destination): int { return 3; }
+    public function getCarrierName(): string { return 'UPS'; }
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">ShippingCalculator (Context) + Usage</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Context class — uses a strategy without knowing which one
+// كلاس الـ Context — بيستخدم strategy من غير ما يعرف أيها
+class ShippingCalculator
+{
+    private ShippingStrategyInterface $strategy;
+
+    public function setStrategy(ShippingStrategyInterface $strategy): void
+    {
+        $this-&gt;strategy = $strategy;
+    }
+    public function calculate(float $weight, string $destination): array
+    {
+        return [
+            'carrier' =&gt; $this-&gt;strategy-&gt;getCarrierName(),
+            'cost'    =&gt; $this-&gt;strategy-&gt;calculateCost($weight, $destination),
+            'days'    =&gt; $this-&gt;strategy-&gt;getEstimatedDays($destination),
+        ];
+    }
+}
+
+// Try all strategies / جرّب كل الـ strategies
+$calc = new ShippingCalculator();
+$options = [];
+foreach ([new FedExStrategy(), new UPSStrategy(), new DHLStrategy()] as $s) {
+    $calc-&gt;setStrategy($s);
+    $options[] = $calc-&gt;calculate($weight, $destination);
+}
+usort($options, fn($a, $b) =&gt; $a['cost'] &lt;=&gt; $b['cost']);</code></pre>
+      </div>
+    </section>
+
+    <section id="when-use">
+      <h2 class="section-anchor"><span class="l-en">When to Use It</span><span class="l-ar" style="display:none">متى تستخدمه</span></h2>
+      <div class="do-dont">
+        <div class="do-box">
+          <h4><span class="l-en">✓ Good Use Cases</span><span class="l-ar" style="display:none">✓ حالات جيدة</span></h4>
+          <ul><span class="l-en"><li>Multiple payment providers</li><li>Sorting/filtering algorithms at runtime</li><li>Export formats (PDF, CSV, Excel)</li><li>Pricing strategies (regular, wholesale, VIP)</li></span><span class="l-ar" style="display:none"><li>Providers متعددة للـ payment</li><li>خوارزميات sorting/filtering وقت التشغيل</li><li>Formats تصدير (PDF, CSV, Excel)</li><li>استراتيجيات التسعير (عادي، جملة، VIP)</li></span></ul>
+        </div>
+        <div class="dont-box">
+          <h4><span class="l-en">✗ Avoid When</span><span class="l-ar" style="display:none">✗ تجنبه عندما</span></h4>
+          <ul><span class="l-en"><li>Only one algorithm that never changes</li><li>Simple if/else with 2 options is readable</li></span><span class="l-ar" style="display:none"><li>خوارزمية واحدة فقط ما بتتغيرش</li><li>if/else بسيط بخيارين مقروء</li></span></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="when-not">
+      <h2 class="section-anchor"><span class="l-en">When NOT to Use It</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></h2>
+      <p class="content-text"><span class="l-en">If you only have two options unlikely to grow, a simple if/else is more readable. Use Strategy when you have 3+ algorithms or when new ones need to be added frequently.</span><span class="l-ar" style="display:none">لو عندك خيارين بس ومش هيكبروا، if/else بسيط أوضح. استخدم Strategy لما عندك 3+ خوارزميات أو لما الجديدة بتُضاف كتير.</span></p>
+    </section>
+    <div class="pattern-nav">
+      <a href="repository.html"><span class="l-en">← Repository</span><span class="l-ar" style="display:none">Repository →</span></a>
+      <a href="observer.html" class="next"><span class="l-en">Observer →</span><span class="l-ar" style="display:none">← Observer</span></a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-logo"><span>{</span> Laravel Patterns <span>}</span></div>
+  <div class="footer-note" data-i18n="footer.note">
+    <span class="l-en">A reference guide for developers. Built for learning &amp; interview prep. Arabic &amp; English.</span>
+    <span class="l-ar" style="display:none">دليل مرجعي للمطورين. مبني للتعلم والتحضير للمقابلات. بالعربي والانجليزي.</span>
+  </div>
+  <div class="footer-author" style="text-align: center;">
+    <span class="footer-author-name">
+      <span class="l-en">Built by Eslam Mohamed</span>
+      <span class="l-ar" style="display:none">من تصميم إسلام محمد</span>
+    </span>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/eslam-mohamed-marey" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://facebook.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</footer>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

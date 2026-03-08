@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Observer — Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-pattern-id="observer">
+<nav>
+  <a class="nav-logo" href="../index.html"><span>{</span> Laravel Patterns <span>}</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="../index.html#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="../index.html#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="detail-hero">
+  <div class="hero-grid-bg" style="opacity:0.2"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html"><span class="l-en">Home</span><span class="l-ar" style="display:none">الرئيسية</span></a>
+      <span>/</span>
+      <a href="../index.html#patterns" data-i18n="nav.patterns-bc">Patterns</a>
+      <span>/</span>
+      <span class="l-en">Observer</span><span class="l-ar" style="display:none">Observer</span>
+    </div>
+    <div class="detail-cat" data-catKey="Behavioral" style="background:rgba(126,93,232,0.1);color:var(--behavioral)">
+      <span class="l-en">Behavioral Pattern</span><span class="l-ar" style="display:none">باترن سلوكي</span>
+    </div>
+    <h1 class="detail-title">
+      <span class="l-en">Observer</span><span class="l-ar" style="display:none">Observer</span>
+    </h1>
+    <p class="detail-tagline">
+      <span class="l-en">Define a one-to-many dependency so when one object changes, all dependents are notified.</span><span class="l-ar" style="display:none">تعريف علاقة one-to-many عشان لما object تتغير، كل التابعين يتم إخطارهم.</span>
+    </p>
+  </div>
+</header>
+
+<div class="detail-layout">
+  <aside class="detail-sidebar">
+    <nav class="toc">
+      <div class="toc-title"><span class="l-en">On This Page</span><span class="l-ar" style="display:none">المحتويات</span></div>
+      <ul class="toc-links">
+        <li><a href="#overview"><span class="l-en">Overview</span><span class="l-ar" style="display:none">نظرة عامة</span></a></li>
+        <li><a href="#problem"><span class="l-en">Real Problem</span><span class="l-ar" style="display:none">مشكلة حقيقية</span></a></li>
+        <li><a href="#laravel"><span class="l-en">In Laravel</span><span class="l-ar" style="display:none">في Laravel</span></a></li>
+        <li><a href="#code"><span class="l-en">Code Example</span><span class="l-ar" style="display:none">مثال كود</span></a></li>
+        <li><a href="#when-use"><span class="l-en">When to Use</span><span class="l-ar" style="display:none">متى تستخدمه</span></a></li>
+        <li><a href="#when-not"><span class="l-en">When NOT to Use</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="detail-content">
+<section id="overview">
+      <h2 class="section-anchor"><span class="l-en">Pattern Overview</span><span class="l-ar" style="display:none">نظرة عامة على الباترن</span></h2>
+      <p class="content-text"><span class="l-en">The <strong>Observer</strong> pattern establishes a subscription mechanism so multiple objects can automatically react when another object changes state.</span><span class="l-ar" style="display:none">باترن <strong>Observer</strong> بيقيم آلية اشتراك عشان objects متعددة تقدر تتفاعل تلقائياً لما object تاني يغير حالته.</span></p>
+      <div class="callout callout-info"><span class="l-en"><strong>Key Idea:</strong> "User registered" → automatically: send welcome email, add to CRM, send Slack alert, grant credits. Each action is a separate, decoupled observer.</span><span class="l-ar" style="display:none"><strong>الفكرة الأساسية:</strong> "اتسجّل user" → تلقائياً: بعت welcome email، أضفته للـ CRM، بعت Slack alert، منحت credits. كل action هو observer منفصل ومفكوك.</span></div>
+    </section>
+
+    <section id="problem">
+      <h2 class="section-anchor"><span class="l-en">Real Problem Example</span><span class="l-ar" style="display:none">مثال على مشكلة حقيقية</span></h2>
+      <p class="content-text"><span class="l-en">Without Observer, <code>UserService::register()</code> grows with every new requirement: send email, notify admin, track analytics, update CRM... It becomes a monolith.</span><span class="l-ar" style="display:none">من غير Observer، <code>UserService::register()</code> بتكبر مع كل متطلب جديد: إرسال email، إخطار admin، تتبع analytics، تحديث CRM... بتبقى monolith.</span></p>
+      <p class="content-text"><span class="l-en">With Observer, the service just fires <code>event(new UserRegistered($user))</code> and each concern handles itself independently.</span><span class="l-ar" style="display:none">مع Observer، الـ service بتطلق <code>event(new UserRegistered($user))</code> بس وكل concern بيعالج نفسه باستقلالية.</span></p>
+    </section>
+
+    <section id="laravel">
+      <h2 class="section-anchor"><span class="l-en">Laravel Implementation</span><span class="l-ar" style="display:none">التطبيق في Laravel</span></h2>
+      <p class="content-text"><span class="l-en">Laravel has <strong>two Observer implementations</strong>: (1) <strong>Events & Listeners</strong> — application-level, can be queued, registered in EventServiceProvider. (2) <strong>Eloquent Model Observers</strong> — react to model lifecycle: created, updated, deleted.</span><span class="l-ar" style="display:none">Laravel عندها <strong>تطبيقين لـ Observer</strong>: (1) <strong>Events & Listeners</strong> — على مستوى التطبيق، ممكن تتحول لـ queue، متسجلة في EventServiceProvider. (2) <strong>Eloquent Model Observers</strong> — بتتفاعل مع lifecycle الـ model: created, updated, deleted.</span></p>
+    </section>
+
+    <section id="code">
+      <h2 class="section-anchor"><span class="l-en">Laravel Code Example</span><span class="l-ar" style="display:none">مثال كود Laravel</span></h2>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Events/UserRegistered.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Events;
+use App\Models\User;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+// The "Subject" — carries data all observers need
+// الـ "Subject" — بيحمل البيانات اللي كل الـ observers محتاجينها
+class UserRegistered
+{
+    use Dispatchable, SerializesModels;
+    public function __construct(public readonly User $user) {}
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Listeners/</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Observer 1: Send welcome email (queued) / مراقب 1: إرسال email ترحيبي (في queue)
+class SendWelcomeEmail implements ShouldQueue
+{
+    public function handle(UserRegistered $event): void
+    {
+        \Mail::to($event-&gt;user)-&gt;send(new WelcomeMail($event-&gt;user));
+    }
+}
+// Observer 2: Track analytics / مراقب 2: تتبع الـ analytics
+class TrackUserRegistration implements ShouldQueue
+{
+    public function handle(UserRegistered $event): void
+    {
+        \Analytics::track('user_registered', ['user_id' =&gt; $event-&gt;user-&gt;id]);
+    }
+}
+// Observer 3: Grant trial / مراقب 3: منح التجربة المجانية
+class GrantTrialCredits
+{
+    public function handle(UserRegistered $event): void
+    {
+        $event-&gt;user-&gt;credits()-&gt;create(['amount' =&gt; 100, 'reason' =&gt; 'welcome_bonus']);
+    }
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Providers/EventServiceProvider.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Register: one event → many listeners (one-to-many Observer)
+// تسجيل: event واحد → listeners كتير (Observer one-to-many)
+protected $listen = [
+    \App\Events\UserRegistered::class =&gt; [
+        \App\Listeners\SendWelcomeEmail::class,
+        \App\Listeners\TrackUserRegistration::class,
+        \App\Listeners\GrantTrialCredits::class,
+    ],
+];
+// Fire the event — UserService doesn't know about listeners
+// إطلاق الـ event — UserService مش عارف بالـ listeners
+event(new UserRegistered($user));</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Observers/UserObserver.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Observers;
+use App\Models\User;
+
+// Model Observer — reacts to Eloquent lifecycle events
+// Model Observer — بيرد على أحداث Eloquent lifecycle
+class UserObserver
+{
+    public function created(User $user): void
+    {
+        \Log::info("New user: {$user-&gt;email}");
+    }
+    public function updating(User $user): void
+    {
+        if ($user-&gt;isDirty('email')) {
+            $user-&gt;email_verified_at = null; // reset / إعادة تعيين
+        }
+    }
+    public function deleted(User $user): void
+    {
+        $user-&gt;profile()-&gt;delete(); // cleanup / تنظيف
+    }
+}
+// Register: User::observe(UserObserver::class);</code></pre>
+      </div>
+    </section>
+
+    <section id="when-use">
+      <h2 class="section-anchor"><span class="l-en">When to Use It</span><span class="l-ar" style="display:none">متى تستخدمه</span></h2>
+      <div class="do-dont">
+        <div class="do-box">
+          <h4><span class="l-en">✓ Good Use Cases</span><span class="l-ar" style="display:none">✓ حالات جيدة</span></h4>
+          <ul><span class="l-en"><li>Multiple reactions to the same event</li><li>Decoupling side effects from core logic</li><li>Notifications, analytics, audit logs</li><li>Reacting to model lifecycle events</li></span><span class="l-ar" style="display:none"><li>ردود فعل متعددة على نفس الـ event</li><li>فصل الـ side effects عن الـ core logic</li><li>إشعارات وanalytics وsaudit logs</li><li>الرد على أحداث lifecycle الـ model</li></span></ul>
+        </div>
+        <div class="dont-box">
+          <h4><span class="l-en">✗ Avoid When</span><span class="l-ar" style="display:none">✗ تجنبه عندما</span></h4>
+          <ul><span class="l-en"><li>You need guaranteed sequential execution</li><li>The reaction is critical to the main flow</li></span><span class="l-ar" style="display:none"><li>محتاج تنفيذ متسلسل مضمون</li><li>الرد حرج للـ main flow</li></span></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="when-not">
+      <h2 class="section-anchor"><span class="l-en">When NOT to Use It</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></h2>
+      <p class="content-text"><span class="l-en">Don't over-event everything. If sending a welcome email is required and synchronous, call it directly rather than firing an event and hoping a listener picks it up.</span><span class="l-ar" style="display:none">ما تعملش events لكل حاجة. لو إرسال welcome email مطلوب وsynchronous، استدعيه مباشرة بدل ما تطلق event وتتمنى إن listener يعالجه.</span></p>
+      <div class="callout callout-warn"><span class="l-en"><strong>Debugging Tip:</strong> When something runs unexpectedly, check EventServiceProvider and any registered Observers. Hidden side effects are the main downside.</span><span class="l-ar" style="display:none"><strong>نصيحة debugging:</strong> لما حاجة تتنفذ بشكل مفاجئ، تحقق من EventServiceProvider وأي Observers مسجلة. الـ side effects المخفية هي العيب الرئيسي.</span></div>
+    </section>
+    <div class="pattern-nav">
+      <a href="strategy.html"><span class="l-en">← Strategy</span><span class="l-ar" style="display:none">Strategy →</span></a>
+      <a href="dependency-injection.html" class="next"><span class="l-en">Dependency Injection →</span><span class="l-ar" style="display:none">← Dependency Injection</span></a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-logo"><span>{</span> Laravel Patterns <span>}</span></div>
+  <div class="footer-note" data-i18n="footer.note">
+    <span class="l-en">A reference guide for developers. Built for learning &amp; interview prep. Arabic &amp; English.</span>
+    <span class="l-ar" style="display:none">دليل مرجعي للمطورين. مبني للتعلم والتحضير للمقابلات. بالعربي والانجليزي.</span>
+  </div>
+  <div class="footer-author" style="text-align: center;">
+    <span class="footer-author-name">
+      <span class="l-en">Built by Eslam Mohamed</span>
+      <span class="l-ar" style="display:none">من تصميم إسلام محمد</span>
+    </span>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/eslam-mohamed-marey" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://facebook.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</footer>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

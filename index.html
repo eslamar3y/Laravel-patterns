@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html"><span>&#123;</span> Laravel Patterns <span>&#125;</span></a>
+  <ul class="nav-links">
+    <li><a href="#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-up fade-up-1" data-i18n="hero.badge">&#9654; Developer Reference · Interview Prep</div>
+    <h1 class="hero-title fade-up fade-up-2" data-i18n="hero.title">
+      Laravel Design<br/><span class="accent">Patterns</span> <span class="accent-b">Hub</span>
+    </h1>
+    <p class="hero-subtitle fade-up fade-up-3" data-i18n="hero.subtitle">
+      Master the design patterns that power Laravel. Clean explanations, practical code examples,
+      and everything you need to ace your next technical interview.
+    </p>
+    <div class="hero-actions fade-up fade-up-4">
+      <a href="#patterns" class="btn btn-primary" data-i18n="hero.btnBrowse">&#9660; Browse Patterns</a>
+      <a href="#interview" class="btn btn-secondary" data-i18n="hero.btnInterview">Interview Prep &#8594;</a>
+    </div>
+    <div class="hero-stats fade-up fade-up-4">
+      <div class="stat"><span class="stat-num">12</span><span class="stat-label" data-i18n="stats.patterns">Design Patterns</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label" data-i18n="stats.categories">Categories</span></div>
+      <div class="stat"><span class="stat-num">25+</span><span class="stat-label" data-i18n="stats.examples">Code Examples</span></div>
+      <div class="stat"><span class="stat-num">15</span><span class="stat-label" data-i18n="stats.questions">Interview Q&As</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="patterns">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="ps.tag">Reference Guide</span>
+      <h2 class="section-title" data-i18n="ps.title">Design Patterns</h2>
+      <p class="section-sub" data-i18n="ps.sub">Click any pattern to see full explanation and Laravel code examples</p>
+    </div>
+    <div class="search-bar-wrap">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="patternSearch" placeholder="Search patterns..." autocomplete="off" />
+      </div>
+      <div class="filter-btns">
+        <button class="filter-btn active" data-cat="All">All</button>
+        <button class="filter-btn" data-cat="Creational">Creational</button>
+        <button class="filter-btn" data-cat="Structural">Structural</button>
+        <button class="filter-btn" data-cat="Behavioral">Behavioral</button>
+      </div>
+    </div>
+
+    <div class="patterns-grid" id="patternsGrid">
+
+      <a href="patterns/singleton.html" class="pattern-card creational" data-category="Creational" data-id="singleton">
+        <div class="card-header"><div class="card-icon">&#9672;</div><span class="card-cat">Creational</span></div>
+        <div class="card-name">Singleton</div>
+        <div class="card-tagline">Ensure a class has only one instance throughout the application lifecycle.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/factory.html" class="pattern-card creational" data-category="Creational" data-id="factory">
+        <div class="card-header"><div class="card-icon">&#11041;</div><span class="card-cat">Creational</span></div>
+        <div class="card-name">Factory Method</div>
+        <div class="card-tagline">Create objects without specifying the exact class to instantiate.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/abstract-factory.html" class="pattern-card creational" data-category="Creational" data-id="abstract-factory">
+        <div class="card-header"><div class="card-icon">&#11042;</div><span class="card-cat">Creational</span></div>
+        <div class="card-name">Abstract Factory</div>
+        <div class="card-tagline">Produce families of related objects without specifying concrete classes.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/builder.html" class="pattern-card creational" data-category="Creational" data-id="builder">
+        <div class="card-header"><div class="card-icon">&#10731;</div><span class="card-cat">Creational</span></div>
+        <div class="card-name">Builder</div>
+        <div class="card-tagline">Construct complex objects step by step using a fluent interface.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/adapter.html" class="pattern-card structural" data-category="Structural" data-id="adapter">
+        <div class="card-header"><div class="card-icon">&#9665;</div><span class="card-cat">Structural</span></div>
+        <div class="card-name">Adapter</div>
+        <div class="card-tagline">Convert one interface into another that clients expect to use.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/facade.html" class="pattern-card structural" data-category="Structural" data-id="facade">
+        <div class="card-header"><div class="card-icon">&#9635;</div><span class="card-cat">Structural</span></div>
+        <div class="card-name">Facade</div>
+        <div class="card-tagline">Provide a simplified interface to a complex subsystem.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/decorator.html" class="pattern-card structural" data-category="Structural" data-id="decorator">
+        <div class="card-header"><div class="card-icon">&#9673;</div><span class="card-cat">Structural</span></div>
+        <div class="card-name">Decorator</div>
+        <div class="card-tagline">Attach new behaviors to objects dynamically without altering their class.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/repository.html" class="pattern-card structural" data-category="Structural" data-id="repository">
+        <div class="card-header"><div class="card-icon">&#9022;</div><span class="card-cat">Structural</span></div>
+        <div class="card-name">Repository Pattern</div>
+        <div class="card-tagline">Abstract your data layer, keeping business logic clean and testable.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/strategy.html" class="pattern-card behavioral" data-category="Behavioral" data-id="strategy">
+        <div class="card-header"><div class="card-icon">&#9651;</div><span class="card-cat">Behavioral</span></div>
+        <div class="card-name">Strategy</div>
+        <div class="card-tagline">Define a family of algorithms and make them interchangeable at runtime.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/observer.html" class="pattern-card behavioral" data-category="Behavioral" data-id="observer">
+        <div class="card-header"><div class="card-icon">&#9678;</div><span class="card-cat">Behavioral</span></div>
+        <div class="card-name">Observer</div>
+        <div class="card-tagline">Notify dependent objects automatically when an object changes state.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/dependency-injection.html" class="pattern-card behavioral" data-category="Behavioral" data-id="dependency-injection">
+        <div class="card-header"><div class="card-icon">&#8620;</div><span class="card-cat">Behavioral</span></div>
+        <div class="card-name">Dependency Injection</div>
+        <div class="card-tagline">Inject dependencies from outside rather than creating them internally.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+      <a href="patterns/command.html" class="pattern-card behavioral" data-category="Behavioral" data-id="command">
+        <div class="card-header"><div class="card-icon">&#9654;</div><span class="card-cat">Behavioral</span></div>
+        <div class="card-name">Command Pattern</div>
+        <div class="card-tagline">Encapsulate a request as an object for queueing, logging, or undo.</div>
+        <div class="card-link">Learn More &#8594;</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section id="interview" class="interview-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="int.tag">Interview Prep</span>
+      <h2 class="section-title" data-i18n="int.title">Common Interview Questions</h2>
+      <p class="section-sub" data-i18n="int.sub">Click a question to reveal the answer</p>
+    </div>
+    <div class="questions-grid">
+      <div class="question-card"><div class="question-header"><span class="q-num">Q1</span><span class="q-text">What is the difference between Factory and Builder patterns?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q2</span><span class="q-text">How does Laravel implement the Singleton pattern?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q3</span><span class="q-text">What is the purpose of the Service Container?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q4</span><span class="q-text">What is Dependency Injection and why is it important?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q5</span><span class="q-text">What is the difference between a Facade and a Helper in Laravel?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q6</span><span class="q-text">How does the Observer pattern work in Laravel Events?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q7</span><span class="q-text">What is the Repository Pattern and when should you use it?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q8</span><span class="q-text">How does Laravel use the Strategy pattern?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q9</span><span class="q-text">What is the Decorator pattern and where does Laravel use it?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q10</span><span class="q-text">What is the Command pattern in Laravel's Queue system?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q11</span><span class="q-text">Explain SOLID principles and how Laravel supports them.</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+      <div class="question-card"><div class="question-header"><span class="q-num">Q12</span><span class="q-text">What is an IoC Container and how is it different from a Service Container?</span><span class="q-toggle">&#9660;</span></div><div class="question-answer"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="arch.tag">Laravel Internals</span>
+      <h2 class="section-title" data-i18n="arch.title">Laravel Architecture Patterns</h2>
+      <p class="section-sub" data-i18n="arch.sub">The high-level patterns that structure every Laravel application</p>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card"><h3><span style="color:var(--accent-yellow)">MVC</span> — Model View Controller</h3><p>Laravel's foundation. Models handle data, Controllers process requests, Views render responses.</p></div>
+      <div class="arch-card"><h3><span style="color:var(--structural)">Repository</span> Pattern</h3><p>An abstraction layer over data access. Swap implementations without touching business logic.</p></div>
+      <div class="arch-card"><h3><span style="color:var(--behavioral)">Service</span> Layer Pattern</h3><p>Move business logic out of Controllers into dedicated Service classes.</p></div>
+      <div class="arch-card"><h3><span style="color:var(--accent-green)">IoC</span> Container</h3><p>Laravel's Service Container automatically resolves class dependencies via PHP Reflection.</p></div>
+      <div class="arch-card"><h3><span style="color:var(--creational)">Service</span> Providers</h3><p>The central place to register bindings, singletons, events, and middleware.</p></div>
+      <div class="arch-card"><h3><span style="color:var(--structural)">Pipeline</span> Pattern</h3><p>Laravel Middleware uses a Pipeline — each layer wraps the request/response and passes it to the next.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo"><span>&#123;</span> Laravel Patterns <span>&#125;</span></div>
+  <div class="footer-note" data-i18n="footer.note">A reference guide for developers. Built for learning &amp; interview prep.</div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

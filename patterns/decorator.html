@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Decorator — Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-pattern-id="decorator">
+<nav>
+  <a class="nav-logo" href="../index.html"><span>{</span> Laravel Patterns <span>}</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="../index.html#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="../index.html#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="detail-hero">
+  <div class="hero-grid-bg" style="opacity:0.2"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html"><span class="l-en">Home</span><span class="l-ar" style="display:none">الرئيسية</span></a>
+      <span>/</span>
+      <a href="../index.html#patterns" data-i18n="nav.patterns-bc">Patterns</a>
+      <span>/</span>
+      <span class="l-en">Decorator</span><span class="l-ar" style="display:none">Decorator</span>
+    </div>
+    <div class="detail-cat" data-catKey="Structural" style="background:rgba(58,184,232,0.1);color:var(--structural)">
+      <span class="l-en">Structural Pattern</span><span class="l-ar" style="display:none">باترن هيكلي</span>
+    </div>
+    <h1 class="detail-title">
+      <span class="l-en">Decorator</span><span class="l-ar" style="display:none">Decorator</span>
+    </h1>
+    <p class="detail-tagline">
+      <span class="l-en">Attach new behaviors to objects dynamically without altering their class.</span><span class="l-ar" style="display:none">إضافة سلوكيات جديدة للـ objects ديناميكياً من غير تعديل كلاسها.</span>
+    </p>
+  </div>
+</header>
+
+<div class="detail-layout">
+  <aside class="detail-sidebar">
+    <nav class="toc">
+      <div class="toc-title"><span class="l-en">On This Page</span><span class="l-ar" style="display:none">المحتويات</span></div>
+      <ul class="toc-links">
+        <li><a href="#overview"><span class="l-en">Overview</span><span class="l-ar" style="display:none">نظرة عامة</span></a></li>
+        <li><a href="#problem"><span class="l-en">Real Problem</span><span class="l-ar" style="display:none">مشكلة حقيقية</span></a></li>
+        <li><a href="#laravel"><span class="l-en">In Laravel</span><span class="l-ar" style="display:none">في Laravel</span></a></li>
+        <li><a href="#code"><span class="l-en">Code Example</span><span class="l-ar" style="display:none">مثال كود</span></a></li>
+        <li><a href="#when-use"><span class="l-en">When to Use</span><span class="l-ar" style="display:none">متى تستخدمه</span></a></li>
+        <li><a href="#when-not"><span class="l-en">When NOT to Use</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="detail-content">
+<section id="overview">
+      <h2 class="section-anchor"><span class="l-en">Pattern Overview</span><span class="l-ar" style="display:none">نظرة عامة على الباترن</span></h2>
+      <p class="content-text"><span class="l-en">The <strong>Decorator</strong> pattern wraps an object to add behavior without changing its class. Both the wrapper and the wrapped object implement the same interface, so they're interchangeable.</span><span class="l-ar" style="display:none">باترن <strong>Decorator</strong> بيلف object عشان يضيف سلوك من غير ما يغير كلاسه. الـ wrapper والـ object المغلّف بينفذوا نفس الـ interface، عشان كده بيكونوا قابلين للتبادل.</span></p>
+      <div class="callout callout-info"><span class="l-en"><strong>Key Idea:</strong> Logger wraps Cache wraps Database. Each layer adds a responsibility, all exposing the same interface.</span><span class="l-ar" style="display:none"><strong>الفكرة الأساسية:</strong> Logger بيلف Cache بيلف Database. كل طبقة بتضيف مسؤولية، وكلهم بيعرضوا نفس الـ interface.</span></div>
+    </section>
+
+    <section id="problem">
+      <h2 class="section-anchor"><span class="l-en">Real Problem Example</span><span class="l-ar" style="display:none">مثال على مشكلة حقيقية</span></h2>
+      <p class="content-text"><span class="l-en">You have a UserRepository querying the database. You want to add caching AND logging. Instead of modifying it, create CachingUserRepository and LoggingUserRepository decorators that wrap it.</span><span class="l-ar" style="display:none">عندك UserRepository بتستعلم من الـ database. عايز تضيف caching وlogging. بدل ما تعدل عليه، انشئ CachingUserRepository وLoggingUserRepository كـ decorators بتلفه.</span></p>
+    </section>
+
+    <section id="laravel">
+      <h2 class="section-anchor"><span class="l-en">Laravel Implementation</span><span class="l-ar" style="display:none">التطبيق في Laravel</span></h2>
+      <p class="content-text"><span class="l-en">Laravel's <strong>Middleware</strong> is the most direct application of Decorator. Each middleware wraps the request handler, adding behavior (auth, CORS, throttling) before and after.</span><span class="l-ar" style="display:none">الـ <strong>Middleware</strong> في Laravel هو أوضح تطبيق لـ Decorator. كل middleware بيلف الـ request handler ويضيف سلوك (auth, CORS, throttling) قبل وبعد.</span></p>
+      <p class="content-text"><span class="l-en">Laravel's <strong>Pipeline</strong> class also implements Decorator chaining — used by the Router and HTTP Kernel for middleware stacks.</span><span class="l-ar" style="display:none">كلاس <strong>Pipeline</strong> في Laravel كمان بينفذ Decorator chaining — بيستخدمه الـ Router وHTTP Kernel لـ middleware stacks.</span></p>
+    </section>
+
+    <section id="code">
+      <h2 class="section-anchor"><span class="l-en">Laravel Code Example</span><span class="l-ar" style="display:none">مثال كود Laravel</span></h2>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Repositories/CachingUserRepository.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Repositories;
+use App\Contracts\UserRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
+
+// Decorator: adds caching around any UserRepository
+// Decorator: بيضيف caching حول أي UserRepository
+class CachingUserRepository implements UserRepositoryInterface
+{
+    public function __construct(
+        private UserRepositoryInterface $inner, // wrapped repo / الـ repo المغلّف
+        private int $ttl = 3600
+    ) {}
+
+    public function find(int $id): ?User
+    {
+        return Cache::remember("user:{$id}", $this-&gt;ttl, function () use ($id) {
+            return $this-&gt;inner-&gt;find($id); // delegate / فوّض للـ inner
+        });
+    }
+    public function findByEmail(string $email): ?User
+    {
+        return Cache::remember('user:email:' . md5($email), $this-&gt;ttl,
+            fn() =&gt; $this-&gt;inner-&gt;findByEmail($email));
+    }
+    public function all(): \Illuminate\Support\Collection
+    {
+        return Cache::remember('users:all', $this-&gt;ttl, fn() =&gt; $this-&gt;inner-&gt;all());
+    }
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">Stacking Decorators / تكديس الـ Decorators</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Stack decorators: Log → Cache → Database
+// كدّس الـ decorators: Log → Cache → Database
+$this-&gt;app-&gt;bind(UserRepositoryInterface::class, function () {
+    $base   = new EloquentUserRepository();        // core
+    $cached = new CachingUserRepository($base);    // + caching
+    $logged = new LoggingUserRepository($cached);  // + logging
+    return $logged;
+    // Call chain: logged-&gt;find() → cached-&gt;find() → eloquent-&gt;find()
+});
+
+// Laravel Middleware = Decorator chain
+// Middleware في Laravel = سلسلة Decorator
+// Auth → Throttle → ValidateCsrf → YourController
+// كل middleware بيلف اللي بعده ويضيف سلوك</code></pre>
+      </div>
+    </section>
+
+    <section id="when-use">
+      <h2 class="section-anchor"><span class="l-en">When to Use It</span><span class="l-ar" style="display:none">متى تستخدمه</span></h2>
+      <div class="do-dont">
+        <div class="do-box">
+          <h4><span class="l-en">✓ Good Use Cases</span><span class="l-ar" style="display:none">✓ حالات جيدة</span></h4>
+          <ul><span class="l-en"><li>Adding caching to a repository</li><li>Adding logging without modifying core logic</li><li>Middleware pipelines, retry logic, auditing</li></span><span class="l-ar" style="display:none"><li>إضافة caching لـ repository</li><li>إضافة logging من غير تعديل الـ core logic</li><li>Middleware pipelines وretry logic والـ auditing</li></span></ul>
+        </div>
+        <div class="dont-box">
+          <h4><span class="l-en">✗ Avoid When</span><span class="l-ar" style="display:none">✗ تجنبه عندما</span></h4>
+          <ul><span class="l-en"><li>Simple subclassing would be cleaner</li><li>Too many decorator layers make debugging hard</li></span><span class="l-ar" style="display:none"><li>الـ subclassing البسيط سيكون أنظف</li><li>طبقات decorator كتير بتصعّب الـ debugging</li></span></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="when-not">
+      <h2 class="section-anchor"><span class="l-en">When NOT to Use It</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></h2>
+      <p class="content-text"><span class="l-en">Decorators can make stack traces confusing with many layers. For cross-cutting concerns in Laravel, consider Middleware (HTTP), Events/Listeners (side effects), or Eloquent Observers (model events) first.</span><span class="l-ar" style="display:none">الـ Decorators ممكن تخلي الـ stack traces محيّرة مع كتر الطبقات. للـ cross-cutting concerns في Laravel، فكر في Middleware (HTTP) أو Events/Listeners (side effects) أو Eloquent Observers (model events) الأول.</span></p>
+    </section>
+    <div class="pattern-nav">
+      <a href="facade.html"><span class="l-en">← Facade</span><span class="l-ar" style="display:none">Facade →</span></a>
+      <a href="repository.html" class="next"><span class="l-en">Repository →</span><span class="l-ar" style="display:none">← Repository</span></a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-logo"><span>{</span> Laravel Patterns <span>}</span></div>
+  <div class="footer-note" data-i18n="footer.note">
+    <span class="l-en">A reference guide for developers. Built for learning &amp; interview prep. Arabic &amp; English.</span>
+    <span class="l-ar" style="display:none">دليل مرجعي للمطورين. مبني للتعلم والتحضير للمقابلات. بالعربي والانجليزي.</span>
+  </div>
+  <div class="footer-author" style="text-align: center;">
+    <span class="footer-author-name">
+      <span class="l-en">Built by Eslam Mohamed</span>
+      <span class="l-ar" style="display:none">من تصميم إسلام محمد</span>
+    </span>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/eslam-mohamed-marey" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://facebook.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</footer>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Repository Pattern — Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-pattern-id="repository">
+<nav>
+  <a class="nav-logo" href="../index.html"><span>{</span> Laravel Patterns <span>}</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="../index.html#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="../index.html#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="detail-hero">
+  <div class="hero-grid-bg" style="opacity:0.2"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html"><span class="l-en">Home</span><span class="l-ar" style="display:none">الرئيسية</span></a>
+      <span>/</span>
+      <a href="../index.html#patterns" data-i18n="nav.patterns-bc">Patterns</a>
+      <span>/</span>
+      <span class="l-en">Repository Pattern</span><span class="l-ar" style="display:none">Repository Pattern</span>
+    </div>
+    <div class="detail-cat" data-catKey="Structural" style="background:rgba(58,184,232,0.1);color:var(--structural)">
+      <span class="l-en">Structural Pattern</span><span class="l-ar" style="display:none">باترن هيكلي</span>
+    </div>
+    <h1 class="detail-title">
+      <span class="l-en">Repository Pattern</span><span class="l-ar" style="display:none">Repository Pattern</span>
+    </h1>
+    <p class="detail-tagline">
+      <span class="l-en">Abstract your data layer — keep business logic clean and database logic separate.</span><span class="l-ar" style="display:none">فصل الـ data layer — احتفظ بالـ business logic نظيف والـ database logic منفصل.</span>
+    </p>
+  </div>
+</header>
+
+<div class="detail-layout">
+  <aside class="detail-sidebar">
+    <nav class="toc">
+      <div class="toc-title"><span class="l-en">On This Page</span><span class="l-ar" style="display:none">المحتويات</span></div>
+      <ul class="toc-links">
+        <li><a href="#overview"><span class="l-en">Overview</span><span class="l-ar" style="display:none">نظرة عامة</span></a></li>
+        <li><a href="#problem"><span class="l-en">Real Problem</span><span class="l-ar" style="display:none">مشكلة حقيقية</span></a></li>
+        <li><a href="#laravel"><span class="l-en">In Laravel</span><span class="l-ar" style="display:none">في Laravel</span></a></li>
+        <li><a href="#code"><span class="l-en">Code Example</span><span class="l-ar" style="display:none">مثال كود</span></a></li>
+        <li><a href="#when-use"><span class="l-en">When to Use</span><span class="l-ar" style="display:none">متى تستخدمه</span></a></li>
+        <li><a href="#when-not"><span class="l-en">When NOT to Use</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="detail-content">
+<section id="overview">
+      <h2 class="section-anchor"><span class="l-en">Pattern Overview</span><span class="l-ar" style="display:none">نظرة عامة على الباترن</span></h2>
+      <p class="content-text"><span class="l-en">The <strong>Repository Pattern</strong> acts as a collection-like abstraction over your data source. Business logic talks to a repository interface; the repository handles all database queries.</span><span class="l-ar" style="display:none">باترن <strong>Repository</strong> بيعمل abstraction شبه collection على الـ data source. الـ business logic بتتكلم مع repository interface؛ والـ repository بتتعامل مع كل استعلامات الـ database.</span></p>
+      <div class="callout callout-info"><span class="l-en"><strong>Key Benefit:</strong> Swap your data source (Eloquent → API → Cache → MongoDB) without touching a single line of business logic.</span><span class="l-ar" style="display:none"><strong>الفايدة الرئيسية:</strong> بدّل الـ data source (Eloquent → API → Cache → MongoDB) من غير ما تلمس سطر واحد من الـ business logic.</span></div>
+    </section>
+
+    <section id="problem">
+      <h2 class="section-anchor"><span class="l-en">Real Problem Example</span><span class="l-ar" style="display:none">مثال على مشكلة حقيقية</span></h2>
+      <p class="content-text"><span class="l-en">Without Repository, <code>User::where('active', 1)->get()</code> is scattered everywhere. Unit testing requires a database. Switching from MySQL to MongoDB means hunting through dozens of files.</span><span class="l-ar" style="display:none">من غير Repository، <code>User::where('active', 1)->get()</code> مبعثرة في كل مكان. الـ unit testing محتاج database. التحول من MySQL لـ MongoDB يعني تصيد في عشرات الملفات.</span></p>
+      <p class="content-text"><span class="l-en">With Repository, services call <code>$this->userRepo->getActiveUsers()</code>. Tests inject a mock. Switching databases means writing one new class.</span><span class="l-ar" style="display:none">مع Repository، الـ services بتستدعي <code>$this->userRepo->getActiveUsers()</code>. الـ tests بتحقن mock. تبديل الـ database معناه كتابة كلاس جديد واحد بس.</span></p>
+    </section>
+
+    <section id="laravel">
+      <h2 class="section-anchor"><span class="l-en">Laravel Implementation</span><span class="l-ar" style="display:none">التطبيق في Laravel</span></h2>
+      <p class="content-text"><span class="l-en">Laravel doesn't include Repository classes, but its architecture makes it easy. Define an interface, create an Eloquent implementation, bind them in a Service Provider.</span><span class="l-ar" style="display:none">Laravel مش عندها Repository classes جاهزة، لكن معمارتها بتسهّل تنفيذها. عرّف interface، انشئ Eloquent implementation، واربطهم في Service Provider.</span></p>
+      <p class="content-text"><span class="l-en">The container acts as the glue — anywhere you type-hint the interface, the container injects the Eloquent implementation.</span><span class="l-ar" style="display:none">الـ container بيعمل كالـ glue — في أي مكان تعمل فيه type-hint للـ interface، الـ container بيحقن الـ Eloquent implementation.</span></p>
+    </section>
+
+    <section id="code">
+      <h2 class="section-anchor"><span class="l-en">Laravel Code Example</span><span class="l-ar" style="display:none">مثال كود Laravel</span></h2>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Contracts/UserRepositoryInterface.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Contracts;
+interface UserRepositoryInterface
+{
+    public function find(int $id): ?User;
+    public function findByEmail(string $email): ?User;
+    public function getActive(): Collection;
+    public function paginate(int $perPage = 15): LengthAwarePaginator;
+    public function create(array $data): User;
+    public function update(int $id, array $data): bool;
+    public function delete(int $id): bool;
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Repositories/EloquentUserRepository.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Repositories;
+use App\Contracts\UserRepositoryInterface;
+use App\Models\User;
+
+class EloquentUserRepository implements UserRepositoryInterface
+{
+    public function find(int $id): ?User
+    {
+        return User::find($id);
+    }
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', $email)-&gt;first();
+    }
+    public function getActive(): Collection
+    {
+        return User::where('active', true)-&gt;orderBy('name')-&gt;get();
+    }
+    public function create(array $data): User
+    {
+        return User::create($data);
+    }
+    public function update(int $id, array $data): bool
+    {
+        return User::where('id', $id)-&gt;update($data);
+    }
+    public function delete(int $id): bool
+    {
+        return User::destroy($id) &gt; 0;
+    }
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">Binding & Usage / الربط والاستخدام</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Bind in ServiceProvider
+$this-&gt;app-&gt;bind(UserRepositoryInterface::class, EloquentUserRepository::class);
+// To switch source: change this one line / لتبديل المصدر: غيّر السطر ده بس
+
+// Service depends on INTERFACE only / الـ Service بيعتمد على الـ Interface بس
+class UserService
+{
+    public function __construct(private UserRepositoryInterface $users) {}
+
+    public function registerUser(array $data): User
+    {
+        $user = $this-&gt;users-&gt;create([...$data, 'password' =&gt; bcrypt($data['password'])]);
+        event(new UserRegistered($user));
+        return $user;
+    }
+}
+
+// Unit test — mock, no DB needed / Unit test — mock، مفيش DB
+$mock = Mockery::mock(UserRepositoryInterface::class);
+$mock-&gt;shouldReceive('create')-&gt;once()-&gt;andReturn(new User());
+$service = new UserService($mock);</code></pre>
+      </div>
+    </section>
+
+    <section id="when-use">
+      <h2 class="section-anchor"><span class="l-en">When to Use It</span><span class="l-ar" style="display:none">متى تستخدمه</span></h2>
+      <div class="do-dont">
+        <div class="do-box">
+          <h4><span class="l-en">✓ Good Use Cases</span><span class="l-ar" style="display:none">✓ حالات جيدة</span></h4>
+          <ul><span class="l-en"><li>Large apps where unit testing matters</li><li>Apps that may change data sources</li><li>Domain-heavy apps with complex business logic</li></span><span class="l-ar" style="display:none"><li>تطبيقات كبيرة حيث الـ unit testing مهم</li><li>تطبيقات ممكن تغير مصادر البيانات</li><li>تطبيقات بـ domain logic معقدة</li></span></ul>
+        </div>
+        <div class="dont-box">
+          <h4><span class="l-en">✗ Avoid When</span><span class="l-ar" style="display:none">✗ تجنبه عندما</span></h4>
+          <ul><span class="l-en"><li>Simple CRUD apps — adds unnecessary layers</li><li>Small projects where Eloquent in controllers is fine</li></span><span class="l-ar" style="display:none"><li>تطبيقات CRUD بسيطة — بيضيف طبقات مش لازمة</li><li>مشاريع صغيرة حيث Eloquent في الـ controllers كافي</li></span></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="when-not">
+      <h2 class="section-anchor"><span class="l-en">When NOT to Use It</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></h2>
+      <p class="content-text"><span class="l-en">Many developers argue that Eloquent Models are already repositories — they abstract database access. Adding another Repository layer can just be wrapping one abstraction with another.</span><span class="l-ar" style="display:none">كتير من المطورين بيقولوا إن Eloquent Models هي repositories أصلاً — بتعمل abstraction للـ database access. إضافة طبقة Repository فوقيها ممكن تكون مجرد تغليف abstraction فوق abstraction.</span></p>
+      <div class="callout callout-warn"><span class="l-en"><strong>Laravel Reality:</strong> For most projects, Eloquent in Service classes is perfectly clean. Reach for Repository when you have a genuine need — like testing without DB, or multiple data sources.</span><span class="l-ar" style="display:none"><strong>الواقع في Laravel:</strong> لمعظم المشاريع، Eloquent في الـ Service classes نظيف كفاية. استخدم Repository لما عندك حاجة حقيقية — زي testing من غير DB أو مصادر بيانات متعددة.</span></div>
+    </section>
+    <div class="pattern-nav">
+      <a href="decorator.html"><span class="l-en">← Decorator</span><span class="l-ar" style="display:none">Decorator →</span></a>
+      <a href="strategy.html" class="next"><span class="l-en">Strategy →</span><span class="l-ar" style="display:none">← Strategy</span></a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-logo"><span>{</span> Laravel Patterns <span>}</span></div>
+  <div class="footer-note" data-i18n="footer.note">
+    <span class="l-en">A reference guide for developers. Built for learning &amp; interview prep. Arabic &amp; English.</span>
+    <span class="l-ar" style="display:none">دليل مرجعي للمطورين. مبني للتعلم والتحضير للمقابلات. بالعربي والانجليزي.</span>
+  </div>
+  <div class="footer-author" style="text-align: center;">
+    <span class="footer-author-name">
+      <span class="l-en">Built by Eslam Mohamed</span>
+      <span class="l-ar" style="display:none">من تصميم إسلام محمد</span>
+    </span>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/eslam-mohamed-marey" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://facebook.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</footer>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

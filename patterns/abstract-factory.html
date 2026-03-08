@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Abstract Factory — Laravel Design Patterns Hub</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body data-pattern-id="abstract-factory">
+<nav>
+  <a class="nav-logo" href="../index.html"><span>{</span> Laravel Patterns <span>}</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#patterns" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="../index.html#interview" data-i18n="nav.interview">Interview Prep</a></li>
+    <li><a href="../index.html#architecture" data-i18n="nav.architecture">Architecture</a></li>
+  </ul>
+</nav>
+
+<header class="detail-hero">
+  <div class="hero-grid-bg" style="opacity:0.2"></div>
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="../index.html"><span class="l-en">Home</span><span class="l-ar" style="display:none">الرئيسية</span></a>
+      <span>/</span>
+      <a href="../index.html#patterns" data-i18n="nav.patterns-bc">Patterns</a>
+      <span>/</span>
+      <span class="l-en">Abstract Factory</span><span class="l-ar" style="display:none">Abstract Factory</span>
+    </div>
+    <div class="detail-cat" data-catKey="Creational" style="background:rgba(232,168,56,0.1);color:var(--creational)">
+      <span class="l-en">Creational Pattern</span><span class="l-ar" style="display:none">باترن إنشائي</span>
+    </div>
+    <h1 class="detail-title">
+      <span class="l-en">Abstract Factory</span><span class="l-ar" style="display:none">Abstract Factory</span>
+    </h1>
+    <p class="detail-tagline">
+      <span class="l-en">Produce families of related objects without specifying concrete classes.</span><span class="l-ar" style="display:none">إنتاج مجموعات من الـ objects المترابطة من غير تحديد الكلاسات الكونكريت.</span>
+    </p>
+  </div>
+</header>
+
+<div class="detail-layout">
+  <aside class="detail-sidebar">
+    <nav class="toc">
+      <div class="toc-title"><span class="l-en">On This Page</span><span class="l-ar" style="display:none">المحتويات</span></div>
+      <ul class="toc-links">
+        <li><a href="#overview"><span class="l-en">Overview</span><span class="l-ar" style="display:none">نظرة عامة</span></a></li>
+        <li><a href="#problem"><span class="l-en">Real Problem</span><span class="l-ar" style="display:none">مشكلة حقيقية</span></a></li>
+        <li><a href="#laravel"><span class="l-en">In Laravel</span><span class="l-ar" style="display:none">في Laravel</span></a></li>
+        <li><a href="#code"><span class="l-en">Code Example</span><span class="l-ar" style="display:none">مثال كود</span></a></li>
+        <li><a href="#when-use"><span class="l-en">When to Use</span><span class="l-ar" style="display:none">متى تستخدمه</span></a></li>
+        <li><a href="#when-not"><span class="l-en">When NOT to Use</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="detail-content">
+<section id="overview">
+      <h2 class="section-anchor"><span class="l-en">Pattern Overview</span><span class="l-ar" style="display:none">نظرة عامة على الباترن</span></h2>
+      <p class="content-text"><span class="l-en">The <strong>Abstract Factory</strong> is a "factory of factories." It creates <em>families</em> of related objects — ensuring all produced objects are always compatible with each other.</span><span class="l-ar" style="display:none">الـ <strong>Abstract Factory</strong> هو "factory للـ factories." بينشئ <em>مجموعات</em> من الـ objects المترابطة — بيضمن إن كل الـ objects اللي بتنتجها متوافقة مع بعضها.</span></p>
+      <div class="callout callout-info"><span class="l-en"><strong>Key Idea:</strong> Pick a "family" (Stripe), and the factory produces all related objects for that family — all guaranteed compatible.</span><span class="l-ar" style="display:none"><strong>الفكرة الأساسية:</strong> اختار "مجموعة" (Stripe)، والـ factory بتنتج كل الـ objects المرتبطة بيها — كلها مضمونة متوافقة.</span></div>
+    </section>
+
+    <section id="problem">
+      <h2 class="section-anchor"><span class="l-en">Real Problem Example</span><span class="l-ar" style="display:none">مثال على مشكلة حقيقية</span></h2>
+      <p class="content-text"><span class="l-en">Your app supports Stripe and PayPal. Each has its own Payment processor, Webhook handler, and Refund processor. Abstract Factory guarantees you never mix a StripePayment with a PayPalWebhook.</span><span class="l-ar" style="display:none">تطبيقك بيدعم Stripe وPayPal. كل واحد عنده Payment processor وWebhook handler وRefund processor. Abstract Factory بتضمن إنك ما تخلطش StripePayment مع PayPalWebhook.</span></p>
+    </section>
+
+    <section id="laravel">
+      <h2 class="section-anchor"><span class="l-en">Laravel Implementation</span><span class="l-ar" style="display:none">التطبيق في Laravel</span></h2>
+      <p class="content-text"><span class="l-en">Laravel's <strong>Manager</strong> classes act as Abstract Factories. The database connection factory creates a complete family (Connection, Grammar, QueryBuilder, SchemaBuilder) all matched to the same database type.</span><span class="l-ar" style="display:none">الـ <strong>Manager</strong> classes في Laravel بتعمل كـ Abstract Factories. الـ database connection factory بتنشئ مجموعة كاملة (Connection, Grammar, QueryBuilder, SchemaBuilder) كلها متطابقة مع نفس نوع الـ database.</span></p>
+    </section>
+
+    <section id="code">
+      <h2 class="section-anchor"><span class="l-en">Laravel Code Example</span><span class="l-ar" style="display:none">مثال كود Laravel</span></h2>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Contracts/PaymentFactoryInterface.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+namespace App\Contracts;
+// Abstract Factory — defines the family interface
+// يعرّف واجهة المجموعة كاملة
+interface PaymentFactoryInterface
+{
+    public function createProcessor(): PaymentProcessorInterface;
+    public function createWebhookHandler(): WebhookHandlerInterface;
+    public function createRefundProcessor(): RefundProcessorInterface;
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Payments/StripePaymentFactory.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Concrete Factory — Stripe family / مجموعة Stripe
+class StripePaymentFactory implements PaymentFactoryInterface
+{
+    public function createProcessor(): StripeProcessor
+    {
+        return new StripeProcessor(config('services.stripe.secret'));
+    }
+    public function createWebhookHandler(): StripeWebhookHandler
+    {
+        return new StripeWebhookHandler(config('services.stripe.webhook_secret'));
+    }
+    public function createRefundProcessor(): StripeRefundProcessor
+    {
+        return new StripeRefundProcessor();
+    }
+}
+// Concrete Factory — PayPal family / مجموعة PayPal
+class PayPalPaymentFactory implements PaymentFactoryInterface
+{
+    public function createProcessor(): PayPalProcessor
+    {
+        return new PayPalProcessor(config('services.paypal.client_id'));
+    }
+    public function createWebhookHandler(): PayPalWebhookHandler { return new PayPalWebhookHandler(); }
+    public function createRefundProcessor(): PayPalRefundProcessor { return new PayPalRefundProcessor(); }
+}</code></pre>
+      </div>
+      <div class="code-block-wrap">
+        <div class="code-header"><span class="code-filename">app/Providers/AppServiceProvider.php</span><button class="copy-btn">Copy</button></div>
+        <pre><code class="language-php">&lt;?php
+// Bind the right factory based on config
+// اربط الـ factory الصح حسب الـ config
+$this-&gt;app-&gt;singleton(PaymentFactoryInterface::class, function () {
+    return match (config('services.payment.driver')) {
+        'stripe' =&gt; new StripePaymentFactory(),
+        'paypal' =&gt; new PayPalPaymentFactory(),
+        default  =&gt; throw new \Exception('Unknown driver'),
+    };
+});
+
+// In controller — no knowledge of Stripe or PayPal
+// في الـ controller — مش عارف Stripe ولا PayPal
+$processor = $this-&gt;paymentFactory-&gt;createProcessor();
+$chargeId  = $processor-&gt;charge($amount, 'USD');</code></pre>
+      </div>
+    </section>
+
+    <section id="when-use">
+      <h2 class="section-anchor"><span class="l-en">When to Use It</span><span class="l-ar" style="display:none">متى تستخدمه</span></h2>
+      <div class="do-dont">
+        <div class="do-box">
+          <h4><span class="l-en">✓ Good Use Cases</span><span class="l-ar" style="display:none">✓ حالات جيدة</span></h4>
+          <ul><span class="l-en"><li>Multiple platform/provider support (Stripe vs PayPal)</li><li>Theming systems (Light vs Dark families)</li><li>Cloud provider abstractions (AWS vs GCP)</li></span><span class="l-ar" style="display:none"><li>دعم providers متعددة (Stripe مقابل PayPal)</li><li>أنظمة الـ theming (فاتح مقابل داكن)</li><li>abstractions لـ cloud providers</li></span></ul>
+        </div>
+        <div class="dont-box">
+          <h4><span class="l-en">✗ Avoid When</span><span class="l-ar" style="display:none">✗ تجنبه عندما</span></h4>
+          <ul><span class="l-en"><li>Only one concrete family exists (overkill)</li><li>Simple Factory Method is sufficient</li></span><span class="l-ar" style="display:none"><li>مجموعة concrete واحدة فقط موجودة</li><li>Factory Method بسيط كافي</li></span></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="when-not">
+      <h2 class="section-anchor"><span class="l-en">When NOT to Use It</span><span class="l-ar" style="display:none">متى لا تستخدمه</span></h2>
+      <p class="content-text"><span class="l-en">If you only have one implementation today and no plans for a second, you're adding abstraction for nothing. Start simple — refactor to Abstract Factory when a second family appears.</span><span class="l-ar" style="display:none">لو عندك implementation واحد دلوقتي ومفيش خطط لتاني، إنت بتضيف abstraction من غير فايدة. ابدأ بسيط — وعمل refactor لـ Abstract Factory لما تظهر مجموعة تانية.</span></p>
+      <div class="callout callout-warn"><span class="l-en"><strong>YAGNI:</strong> "You Ain't Gonna Need It." Don't build Abstract Factory speculatively. Add it when you actually have two concrete families.</span><span class="l-ar" style="display:none"><strong>YAGNI:</strong> "مش هتحتاجه." ما تبنيش Abstract Factory بشكل استباقي. ضيفه لما يكون عندك مجموعتين فعلاً.</span></div>
+    </section>
+    <div class="pattern-nav">
+      <a href="factory.html"><span class="l-en">← Factory Method</span><span class="l-ar" style="display:none">Factory Method →</span></a>
+      <a href="builder.html" class="next"><span class="l-en">Builder →</span><span class="l-ar" style="display:none">← Builder</span></a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <div class="footer-logo"><span>{</span> Laravel Patterns <span>}</span></div>
+  <div class="footer-note" data-i18n="footer.note">
+    <span class="l-en">A reference guide for developers. Built for learning &amp; interview prep. Arabic &amp; English.</span>
+    <span class="l-ar" style="display:none">دليل مرجعي للمطورين. مبني للتعلم والتحضير للمقابلات. بالعربي والانجليزي.</span>
+  </div>
+  <div class="footer-author" style="text-align: center;">
+    <span class="footer-author-name">
+      <span class="l-en">Built by Eslam Mohamed</span>
+      <span class="l-ar" style="display:none">من تصميم إسلام محمد</span>
+    </span>
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/in/eslam-mohamed-marey" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="https://facebook.com/eslamar3y" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </div>
+</footer>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
