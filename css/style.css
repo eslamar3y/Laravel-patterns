@@ -619,7 +619,6 @@ section { padding: 5rem 2rem; }
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid var(--border);
-  direction: ltr !important;
 }
 
 .code-header {
@@ -965,13 +964,64 @@ footer {
 
 
 @media (max-width: 600px) {
+  /* Nav */
   nav { padding: 0 1rem; }
   .nav-links { display: none; }
   .nav-menu-btn { display: block; }
+
+  /* Hero */
   .hero { padding: 80px 1rem 3rem; }
-  section { padding: 3rem 1rem; }
+  .detail-hero { padding: 80px 1rem 2rem; }
+  .detail-title { font-size: clamp(1.8rem, 8vw, 3rem); }
   .hero-stats { gap: 1.5rem; }
+
+  /* Sections & layout */
+  section { padding: 3rem 1rem; }
+  .detail-layout { padding: 2rem 1rem 3rem; }
+  .container { padding: 0; }
+
+  /* Content */
+  .content-text { font-size: 0.85rem; word-break: break-word; }
+
+  /* Code blocks */
+  .code-block-wrap { margin: 1rem 0; border-radius: 4px; }
+  pre {
+    padding: 1rem;
+    font-size: 0.72rem;
+    overflow-x: auto;
+    white-space: pre;
+    word-break: normal;
+    -webkit-overflow-scrolling: touch;
+  }
+  code { font-size: 0.72rem; }
+  .code-header { flex-wrap: wrap; gap: 0.4rem; }
+  .code-filename { font-size: 0.65rem; word-break: break-all; }
+
+  /* Callouts */
+  .callout { padding: 1rem; font-size: 0.8rem; word-break: break-word; }
+
+  /* Pattern nav */
   .pattern-nav { grid-template-columns: 1fr; }
+
+  /* Cards */
+  .patterns-grid { grid-template-columns: 1fr; }
+
+  /* Footer */
+  footer { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .footer-author { text-align: left; }
+  .footer-social { justify-content: flex-start; flex-wrap: wrap; }
+
+  /* Search */
+  .search-input-wrap { min-width: 100%; }
+  .search-bar-wrap { flex-direction: column; }
+  .filter-btns { gap: 0.35rem; }
+  .filter-btn { font-size: 0.68rem; padding: 0.45rem 0.7rem; }
+
+  /* Do/Dont */
+  .do-box, .dont-box { padding: 1rem; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-size: 0.7rem; flex-wrap: wrap; }
 }
 
 /* ANIMATIONS */
@@ -1102,3 +1152,8 @@ footer {
 [dir="rtl"] .filter-btns {
   flex-direction: row-reverse;
 }
+
+
+/* Global mobile safety */
+img, pre { max-width: 100%; }
+* { box-sizing: border-box; }
