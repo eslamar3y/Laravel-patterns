@@ -959,6 +959,7 @@ footer {
   footer{
     flex-direction: column !important;
     text-align: center;
+    align-items: center !important;
   }
 }
 
